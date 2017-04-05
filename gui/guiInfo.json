@@ -1,0 +1,9 @@
+// To be used in a later project
+
+{
+	{
+		"guiTitle":"Map Generator",
+		"guiWidth":2000,
+		"guiHeight":1500,
+	}
+}

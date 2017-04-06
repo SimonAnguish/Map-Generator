@@ -3,7 +3,11 @@
 {
 	{
 		"guiTitle":"Map Generator",
-		"guiWidth":2000,
-		"guiHeight":1500,
+		"guiWidth":1000,
+		"guiHeight":700,
+		"guiLocation": {
+			"x":150,
+			"y":100
+		}
 	}
 }

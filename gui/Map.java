@@ -4,57 +4,36 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
 
-public class Map {
-	int[][] map = new int[10][10];
-	JPanel currentMapPanel = new JPanel();
+public class Map extends JComponent {
+	final int numPoints = 1000;
+	int[] xPoints = new int[numPoints];
+	int[] yPoints = new int[numPoints];
 
-	public Map() {
-		drawMap();
-	}
+	Dimension panelDim = new Dimension(1250,750);
 
-	public void drawMap() {
+	public Map(Dimension d) {
+		panelDim = d;
 		populateMap();
-
-		JPanel mapPanel = new JPanel();
-		mapPanel.setLayout(new GridLayout(10,10));
-
-		JPanel blockPanel;
-
-		for (int[] row : map) {
-			for (int col : row) {
-				if (col == 1) {
-					blockPanel = new JPanel();
-					blockPanel.setBackground(Color.GREEN);
-					blockPanel.setSize(new Dimension(10,10));
-					mapPanel.add(blockPanel);
-				}
-				else {
-					blockPanel = new JPanel();
-					blockPanel.setBackground(Color.WHITE);
-					blockPanel.setSize(new Dimension(10,10));
-					mapPanel.add(blockPanel);
-				}
-			}
-		}
-
-		currentMapPanel = mapPanel;
+		repaint();
+	}
+	
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		
+		// Draw Water
+		g2.setColor(Color.BLUE);
+		g2.fillRect(0, 0, panelDim.width, panelDim.height);
+		
+		g2.setColor(Color.GREEN);
+		g2.fillPolygon(xPoints, yPoints, numPoints);
 	}
 
-	private void populateMap() {
+	public void populateMap() {
 		Random rand = new Random();
-		for (int[] row : map) {
-			System.out.printf("[");
-			for (int col : row) {
-				col = rand.nextBoolean() ? 1 : 0;
-				System.out.printf("%d,", col);
-			}
-			System.out.printf("]\n");
+		for(int i=0;i<numPoints;i++) {
+			xPoints[i] = rand.nextInt(panelDim.width);
+			yPoints[i] = rand.nextInt(panelDim.height);
 		}
-
-		System.out.printf("\n----\n");
-	}
-
-	public JPanel getMapPanel() {
-		return currentMapPanel;
+		
 	}
 }

@@ -5,11 +5,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MapScreen extends JFrame {
+	final Dimension guiSize = new Dimension(1250,750);
 
-	Map map = new Map();
+	Map map = new Map(guiSize);
 	
 	final String guiTitle = "Map Generator";
-	final Dimension guiSize = new Dimension(1000,700);
 
 
 	JPanel mapPanel = new JPanel();
@@ -18,35 +18,30 @@ public class MapScreen extends JFrame {
 		makeMapPanel();
 		makeGenerateButtonPanel();
 
-		pack();
-
-		// Standard build stuff. Maybe find some way to make this cleaner
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle(guiTitle);
-		setSize(guiSize.width, guiSize.height);
-		setLocation(150,100);
-		setResizable(false);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+		pack();
 
 		setVisible(true);
 	}
 
 	private void makeMapPanel() {
 		mapPanel.setBackground(Color.LIGHT_GRAY);
-		mapPanel.setSize(new Dimension(guiSize.width, guiSize.height));
+		mapPanel.setSize(guiSize);
+		
+		map.repaint();
 
-		map.drawMap();
-
-		mapPanel.add(map.getMapPanel(), BorderLayout.CENTER);
-
-		add(mapPanel, BorderLayout.CENTER);
+		add(map, BorderLayout.CENTER);
 	}
 
 	private void makeGenerateButtonPanel() {
 		JButton generateButton = new JButton("Generate");
 		generateButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				map.drawMap();
-				makeMapPanel();
+				map.populateMap();
+				map.repaint();
 			}
 		});
 

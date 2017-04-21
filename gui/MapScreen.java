@@ -10,6 +10,7 @@ public class MapScreen extends JFrame {
 	Map map = new Map(guiSize);
 	
 	final String guiTitle = "Map Generator";
+	JLabel currentScore = new JLabel("" + map.measureScore());
 
 
 	JPanel mapPanel = new JPanel();
@@ -17,6 +18,7 @@ public class MapScreen extends JFrame {
 	public MapScreen() {
 		makeMapPanel();
 		makeGenerateButtonPanel();
+		makeInteractivePanel();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle(guiTitle);
@@ -40,11 +42,17 @@ public class MapScreen extends JFrame {
 		JButton generateButton = new JButton("Generate");
 		generateButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				map.populateMap();
+				map = new Map(guiSize);
+				
+				currentScore.setText("" + map.measureScore());
 				map.repaint();
 			}
 		});
 
 		add(generateButton, BorderLayout.SOUTH);
+	}
+	
+	private void makeInteractivePanel() {
+		add(currentScore, BorderLayout.NORTH);
 	}
 }

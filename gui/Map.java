@@ -1,14 +1,15 @@
 package gui;
 
 import java.util.Random;
+import java.util.Arrays;
 import java.lang.Math;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Map extends JComponent {
-	final int numPoints = 1000;
-	final int iterations = 900000;
+	final int numPoints = 10000;
+	final int iterations = 1000;
 	
 	int[] xPoints = new int[numPoints];
 	int[] yPoints = new int[numPoints];
@@ -50,9 +51,14 @@ public class Map extends JComponent {
 
 	public void populateMap() {
 		Random rand = new Random();
-		for(int i=0;i<numPoints;i++) {
-			xPoints[i] = rand.nextInt(panelDim.width);
-			yPoints[i] = rand.nextInt(panelDim.height);
+		xPoints[0] = panelDim.width/2;
+		yPoints[0] = panelDim.height/2;
+		for(int i=1;i<numPoints;i++) {
+			if (rand.nextBoolean()) xPoints[i] = xPoints[i-1] + rand.nextInt(5);
+			else xPoints[i] = xPoints[i-1] - rand.nextInt(5);
+
+			if (rand.nextBoolean()) yPoints[i] = yPoints[i-1] + rand.nextInt(5);
+			else yPoints[i] = yPoints[i-1] - rand.nextInt(5);
 		}
 	}
 	
@@ -66,11 +72,15 @@ public class Map extends JComponent {
 	
 	public double measureScore() {
 		double score = 0;
+
+		// Measure Proximity to other points
 		for (int i=1;i<numPoints;i++) {
 			// Calculate distance between points
 			score += Math.sqrt(Math.pow(((double)xPoints[i]-(double)xPoints[i-1]),2.0)+Math.pow(((double)yPoints[i]-(double)yPoints[i-1]),2.0));
 		}
 		
+		score += Math.sqrt(Math.pow(((double)xPoints[numPoints-1]-(double)xPoints[0]),2.0)+Math.pow(((double)yPoints[numPoints-1]-(double)yPoints[0]),2.0));
+
 		return score;
 	}
 }

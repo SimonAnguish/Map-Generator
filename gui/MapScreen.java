@@ -42,7 +42,7 @@ public class MapScreen extends JFrame {
 		JButton generateButton = new JButton("Generate");
 		generateButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				map = new Map(guiSize);
+				map.populateMap();
 				
 				currentScore.setText("" + map.measureScore());
 				map.repaint();
